@@ -11,8 +11,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Pinewood.Customer.EF\Pinewood.Customers.EF.csproj" />
     <ProjectReference Include="..\Pinewood.CustomerApi\Pinewood.CustomerApi.csproj" />
+    <ProjectReference Include="..\Pinewood.Customers.EF\Pinewood.Customers.EF.csproj" />
   </ItemGroup>
 
 </Project>
