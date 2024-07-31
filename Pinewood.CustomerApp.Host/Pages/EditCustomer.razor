@@ -1,0 +1,33 @@
+﻿@page "/editcustomer/{customerId:guid}"
+@using Pinewood.CustomerApp.Host.Models
+@using Pinewood.CustomerApp.Host.Shared
+@inject CustomerService CustomerService
+@inject NavigationManager NavigationManager
+
+<h3>Edit Customer</h3>
+
+<CustomerForm Customer="customer" 
+              OnValidSubmit="UpdateCustomerAsync" 
+              ButtonText="Update" />
+
+@code {
+    [Parameter]
+    public Guid CustomerId { get; set; }
+
+    private Customer customer = new Customer();
+
+    protected override async Task OnInitializedAsync()
+    {
+        customer = await CustomerService.GetCustomerAsync(CustomerId);
+        if (customer == null)
+        {
+            NavigationManager.NavigateTo("/");
+        }
+    }
+
+    private async Task UpdateCustomerAsync(Customer updatedCustomer)
+    {
+        await CustomerService.UpdateCustomerAsync(updatedCustomer);
+        NavigationManager.NavigateTo("/");
+    }
+}

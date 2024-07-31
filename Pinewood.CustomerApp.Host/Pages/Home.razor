@@ -1,0 +1,53 @@
+﻿@page "/"
+@using Pinewood.CustomerApp.Host.Models
+@inject CustomerService CustomerService
+@inject NavigationManager NavigationManager
+
+<PageTitle>Customers</PageTitle>
+
+<h3>Customers</h3>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var customer in Customers)
+        {
+            <tr>
+                <td>@customer.Name</td>
+                <td>@customer.Email</td>
+                <td>
+                    <a href="/editcustomer/@customer.CustomerId">Edit</a>
+                    <button @onclick="() => DeleteCustomer(customer.CustomerId)">Delete</button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<button class="btn btn-primary" @onclick="AddCustomer">Add Customer</button>
+
+@code {
+    private List<Customer> Customers = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        Customers = await CustomerService.GetCustomersAsync();
+    }
+
+    private async Task DeleteCustomer(Guid customerId)
+    {
+        await CustomerService.DeleteCustomerAsync(customerId);
+        Customers = await CustomerService.GetCustomersAsync();
+    }
+
+    private void AddCustomer()
+    {
+        NavigationManager.NavigateTo($"/addcustomer");
+    }
+}

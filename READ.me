@@ -1,0 +1,62 @@
+Details of the coding exercise –
+
+Coding Exercise:
+
+Create a small self-contained solution to add, edit, and delete customers.
+
+    You should create an ASP.NET UI project for the frontend and an ASP.NET API project for the backend/data access.
+    Spend 1-2 hours and see what you can get done.
+    You can implement some sort of database/data storage or you can hard code it.
+    This is not a UI/design exercise, we are not majorly concerned with look and feel.
+
+
+I have completed the above excerise. 
+
+Frontend:
+    - Pinewood.CustomerApp.Host
+
+Backend:
+    - Pinewood.CustomerApi.Host
+    - Pinewood.CustomerApi
+    - Pinewood.CustomerApi.EF (SQL Server Database using entity framework)
+
+Initial Approach:
+    - Started with an InMemoryCustomerRepository for simplicity. This was later replaced with a SQL Server based CustomerRepository for persistent storage.
+    - The InMemoryCustomerRepository is included as an example of the initial approach but is no longer in use. It would typically be removed in a production environment.
+    - I have also left the InMemoryCustomerRepository so anyone can execute this solution without requiring to setup DB. Note: it does work with SQL db. Only a quicker method if you don't have db locally.
+
+Here are a few areas that initially pop out as possible future improvements.
+TODOs:
+    - Validation on customer data both frontend and backend. Example: validate name and email lenghts or validate that the email is an email
+    - Organising the frontend further such as using the MVVC pattern. Example: seperating the logic of the razor components to views and viewmodels.
+    - Add middlewares, we could use middlewares on controllers to handle exception cases in one place. This would mean that controllers become lightweight and only the happy case. 
+      Controllers can still handle bad cases if necessary or unqiue.
+    - Improve UI design. As mentioned this isn't a major concern. Mentioning if this was a real project, I'd look to improve.
+    - Add testing - unit tests, intregation tests or e2e tests.
+
+To get started with the project, follow these steps:
+1. Setup the Database with SQL Server. If easier skip to step two and use the InMemoryCustomerRepo:
+    - Ensure SQL Server is running and accessible. I'm using Microsoft Sql Server
+    - Set Pinewood.CustomerApi.EF as the startup project
+    - In package manager console, navigate to Pinewood.CustomerApi.EF and in the drop at the top of the packager manager console select Pinewood.CustomerApi.EF.
+    -  Run migrations to set up the database schema using the following command: dotnet ef database update
+
+2. Setup with in memory repo (SKIP if you've setup SQL Server in step one):
+    - Firstly, we need to switch to using the in memory repo. 
+    - Navigate to Pinewood.CustomerApi.Host and the program.cs file.
+    - Remove or comment out line 14 for builder.Services.AddRepositories(builder.Configuration);
+    - Uncomment line 13 for builder.Services.AddInMemoryRepositories();
+    - Save file :)
+    - Completed, move on to step 3.
+
+3. Run the Projects:
+    - Start the backend API project (Pinewood.CustomerApi.Host).
+    - Start the frontend project (Pinewood.CustomerApp.Host).
+    - This can achieved by configuraing startup to multiple projects.
+
+4. Access the Application:
+    - Navigate to the frontend application URL to interact with the customer management system.
+    - This should load automatically. 
+    - Frontend URL: https://localhost:7038/
+    - Backend URL: https://localhost:7000
+

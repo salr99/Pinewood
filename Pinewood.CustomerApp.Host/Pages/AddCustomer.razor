@@ -1,0 +1,21 @@
+﻿@page "/addcustomer"
+@using Pinewood.CustomerApp.Host.Models
+@using Pinewood.CustomerApp.Host.Shared
+@inject CustomerService CustomerService
+@inject NavigationManager NavigationManager
+
+<h3>Add New Customer</h3>
+
+<CustomerForm Customer="NewCustomer" 
+              OnValidSubmit="AddCustomerAsync" 
+              ButtonText="Add" />
+
+@code {
+    private Customer NewCustomer = new Customer();
+
+    private async Task AddCustomerAsync(Customer customer)
+    {
+        await CustomerService.AddCustomerAsync(customer);
+        NavigationManager.NavigateTo("/");
+    }
+}
